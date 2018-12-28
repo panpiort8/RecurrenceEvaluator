@@ -9,6 +9,14 @@ public class SquareMatrix {
     public SquareMatrix(int n){
         this.n = n;
         tab = new Double[n*n];
+        for (int i = 0; i < n; i++)
+            for (int j = 0; j < n; j++)
+                set(i, j, (i == j)? 1.0:0.0);
+    }
+
+    public SquareMatrix(SquareMatrix matrix){
+        this.n = matrix.getN();
+        tab = matrix.getRaw();
     }
 
     public SquareMatrix(int n, Double[] elements){
@@ -17,14 +25,6 @@ public class SquareMatrix {
             throw new RuntimeException("Invalid arguments!");
         }
         tab = elements;
-    }
-
-    static public SquareMatrix getId(int n){
-        SquareMatrix id = new SquareMatrix(n);
-        for (int i = 0; i < n; i++) {
-            id.set(i, i, 1.0);
-        }
-        return id;
     }
 
     @Override
@@ -50,6 +50,10 @@ public class SquareMatrix {
 
     public int getN() {
         return n;
+    }
+
+    public Double[] getRaw(){
+        return tab.clone();
     }
 
     public Double get(int i, int j){
@@ -78,6 +82,17 @@ public class SquareMatrix {
     }
 
     static public SquareMatrix power(SquareMatrix matrix, int k){
-        return null;
+        if(k == 0)
+            return new SquareMatrix(matrix.getN());
+        if(k == 1)
+            return new SquareMatrix(matrix);
+        if(k % 2 == 0){
+            SquareMatrix m1 = SquareMatrix.power(matrix, k/2);
+            return SquareMatrix.multiply(m1, m1);
+        }
+        else{
+            SquareMatrix m1 = SquareMatrix.power(matrix, k-1);
+            return SquareMatrix.multiply(matrix, m1);
+        }
     }
 }
