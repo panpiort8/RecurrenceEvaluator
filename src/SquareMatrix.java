@@ -11,7 +11,7 @@ public class SquareMatrix {
         tab = new Double[n*n];
         for (int i = 0; i < n; i++)
             for (int j = 0; j < n; j++)
-                set(i, j, (i == j)? 1.0:0.0);
+                set(i, j, 0.0);
     }
 
     public SquareMatrix(SquareMatrix matrix){
@@ -47,6 +47,12 @@ public class SquareMatrix {
         return builder.toString();
     }
 
+    static public SquareMatrix getId(int n){
+        SquareMatrix id = new SquareMatrix(n);
+        for (int i = 0; i < n; i++)
+            id.set(i, i, 1.0);
+        return id;
+    }
 
     public int getN() {
         return n;
@@ -83,7 +89,7 @@ public class SquareMatrix {
 
     static public SquareMatrix power(SquareMatrix matrix, int k){
         if(k == 0)
-            return new SquareMatrix(matrix.getN());
+            return SquareMatrix.getId(matrix.getN());
         if(k == 1)
             return new SquareMatrix(matrix);
         if(k % 2 == 0){
