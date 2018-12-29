@@ -9,6 +9,15 @@ public class RecurrencySolver{
     private List<Double> arguments;
     private SquareMatrix matrix;
     private int n;
+    private volatile boolean triedToSplit = false;
+
+    void setTriedToSplit(boolean triedToSplit) {
+        this.triedToSplit = triedToSplit;
+    }
+
+    public boolean isTriedToSplit() {
+        return triedToSplit;
+    }
 
     int getN() {
         return n;
@@ -62,21 +71,30 @@ public class RecurrencySolver{
     public Stream<Double> stream(){
         return StreamSupport.stream(spliterator(), false);
     }
+
+    public Stream<Double> parallelStream(){
+        return StreamSupport.stream(spliterator(), true);
+    }
+
+
+
 }
 
 class RecurrencySolverSpliterator implements Spliterator<Double>{
 
+    private RecurrencySolver solver;
     private SquareMatrix recMatrix;
     private SquareMatrix currentMatrix;
     private List<Double> arguments;
     private int currentMatrixPower;
     private int matrixDim;
     private int current;
-    private int last;
+    private long last = Long.MAX_VALUE;
 
     RecurrencySolverSpliterator(RecurrencySolver solver){
         this.current = 0;
         this.currentMatrixPower = 1;
+        this.solver = solver;
         this.matrixDim = solver.getN();
         this.arguments = solver.getArguments();
         this.currentMatrix = solver.getMatrix();
@@ -85,6 +103,8 @@ class RecurrencySolverSpliterator implements Spliterator<Double>{
 
     @Override
     public boolean tryAdvance(Consumer<? super Double> consumer) {
+        if (estimateSize() <= 0)
+            return false;
         if(current < matrixDim)
             consumer.accept(arguments.get(current));
         else {
@@ -100,16 +120,17 @@ class RecurrencySolverSpliterator implements Spliterator<Double>{
 
     @Override
     public Spliterator<Double> trySplit() {
+        solver.setTriedToSplit(true);
         return null;
     }
 
     @Override
     public long estimateSize() {
-        return 0;
+        return last == Long.MAX_VALUE ? Long.MAX_VALUE : last - current + 1;
     }
 
     @Override
     public int characteristics() {
-        return 0;
+        return CONCURRENT;
     }
 }
