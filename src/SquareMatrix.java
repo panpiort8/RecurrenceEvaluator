@@ -87,7 +87,7 @@ public class SquareMatrix {
         return m;
     }
 
-    static public SquareMatrix power(SquareMatrix matrix, int k){
+    static public SquareMatrix power(SquareMatrix matrix, long k){
         if(k == 0)
             return SquareMatrix.getId(matrix.getN());
         if(k == 1)
