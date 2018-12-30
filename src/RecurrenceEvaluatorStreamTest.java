@@ -7,7 +7,7 @@ import static org.junit.Assert.*;
 public class RecurrenceEvaluatorStreamTest {
     @org.junit.Test
     public void StreamLimitTest() {
-        RecurrenceSolver solver = new RecurrenceSolver();
+        RecurrenceEvaluator solver = new RecurrenceEvaluator();
         solver.setRecurrence(new Double[]{1.0, 1.0}).setInitialValues(new Double[]{1.0, 1.0});
 
         List<Double> result = new ArrayList<>();
@@ -18,7 +18,7 @@ public class RecurrenceEvaluatorStreamTest {
 
     @org.junit.Test
     public void StreamSkipLimitTest() {
-        RecurrenceSolver solver = new RecurrenceSolver();
+        RecurrenceEvaluator solver = new RecurrenceEvaluator();
         solver.setRecurrence(new Double[]{1.0, 1.0}).setInitialValues(new Double[]{1.0, 1.0});
 
         List<Double> result = new ArrayList<>();
@@ -34,7 +34,7 @@ public class RecurrenceEvaluatorStreamTest {
 
     @org.junit.Test
     public void StreamTest() {
-        RecurrenceSolver solver = new RecurrenceSolver();
+        RecurrenceEvaluator solver = new RecurrenceEvaluator();
         solver.setRecurrence(new Double[]{1.0, 1.0}).setInitialValues(new Double[]{1.0, 1.0});
 
         List<Double> result = new ArrayList<>();
@@ -53,7 +53,7 @@ public class RecurrenceEvaluatorStreamTest {
 
     @org.junit.Test
     public void SimpleStreamTest(){
-        RecurrenceSolver solver = new RecurrenceSolver();
+        RecurrenceEvaluator solver = new RecurrenceEvaluator();
         solver.setRecurrence(new Double[]{-1.0, 2.0}).setInitialValues(new Double[]{1.0, 1.0});
 
         List<Integer> result = new ArrayList<>();
@@ -69,7 +69,7 @@ public class RecurrenceEvaluatorStreamTest {
 
     @org.junit.Test
     public void ParallelSortTest(){
-        RecurrenceSolver solver = new RecurrenceSolver();
+        RecurrenceEvaluator solver = new RecurrenceEvaluator();
         solver.setRecurrence(new Double[]{-0.5, 1.0}).setInitialValues(new Double[]{1.0, 1.0});
 
         List<Long> sequential = new ArrayList<>();
@@ -81,7 +81,7 @@ public class RecurrenceEvaluatorStreamTest {
 
     @org.junit.Test
     public void ParallelAdvancedTest(){
-        RecurrenceSolver solver = new RecurrenceSolver();
+        RecurrenceEvaluator solver = new RecurrenceEvaluator();
         solver.setRecurrence(new Double[]{-0.5, 1.0}).setInitialValues(new Double[]{1.0, 1.0});
 
         List<Long> sequential = new ArrayList<>();

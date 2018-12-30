@@ -4,7 +4,7 @@ import java.util.function.Consumer;
 
 public class RecurrenceEvaluatorSpliterator implements Spliterator<Double> {
 
-    private RecurrenceSolver solver;
+    private RecurrenceEvaluator solver;
     private SquareMatrix recurrenceMatrix;
     private List<Double> initialValues;
     private int matrixDim;
@@ -15,7 +15,7 @@ public class RecurrenceEvaluatorSpliterator implements Spliterator<Double> {
     private long lastElement = Long.MAX_VALUE;
     private boolean skipped = false;
 
-    RecurrenceEvaluatorSpliterator(RecurrenceSolver solver){
+    RecurrenceEvaluatorSpliterator(RecurrenceEvaluator solver){
         this.solver = solver;
 
         // It may be more efficient to have it's own copy of solver
@@ -44,7 +44,7 @@ public class RecurrenceEvaluatorSpliterator implements Spliterator<Double> {
             long remainPower = wantedPower - currentMatrixPower;
             currentRecurrenceMatrix = SquareMatrix.multiply(currentRecurrenceMatrix, SquareMatrix.power(recurrenceMatrix, remainPower));
             currentMatrixPower = (int) wantedPower;
-            consumer.accept(RecurrenceSolver.extractValue(initialValues, currentRecurrenceMatrix));
+            consumer.accept(RecurrenceEvaluator.extractValue(initialValues, currentRecurrenceMatrix));
         }
         currentElement++;
         return true;
@@ -55,7 +55,7 @@ public class RecurrenceEvaluatorSpliterator implements Spliterator<Double> {
         if (estimateSize() < 20)
             return null;
         long s = estimateSize()/2;
-        RecurrenceSolverSpliterator spliterator = new RecurrenceSolverSpliterator(this.solver);
+        RecurrenceEvaluatorSpliterator spliterator = new RecurrenceEvaluatorSpliterator(this.solver);
         spliterator.lastElement = this.currentElement + s;
         spliterator.currentElement = this.currentElement;
         this.currentElement = spliterator.lastElement + 1;

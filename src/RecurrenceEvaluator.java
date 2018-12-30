@@ -1,7 +1,7 @@
 import java.util.*;
 import java.util.stream.*;
 
-public class recurrenceEvaluator {
+public class RecurrenceEvaluator {
     private List<Double> initialValues;
     private SquareMatrix matrix;
     private int dim = 0;
@@ -19,7 +19,7 @@ public class recurrenceEvaluator {
     }
 
     // {b_1, b_2, ..., b_k} represents recurrence given by: a_n = b_1 * a_(n-k) + b_2 * a_(n-k+1) + ... + b_k * a_(n-1)
-    public RecurrenceSolver setRecurrence(Double [] recurrence){
+    public RecurrenceEvaluator setRecurrence(Double [] recurrence){
         if(initialValues != null && initialValues.size() != recurrence.length)
             throw new RuntimeException("'Dimension' of recurrence must be equal to length of list of initial values.");
         List<Double> rec = Arrays.asList(recurrence);
@@ -33,7 +33,7 @@ public class recurrenceEvaluator {
     }
 
     // {a_0, a_1, ..., a_(k-1)} - first k values of recurrence
-    public RecurrenceSolver setInitialValues(Double [] initialValues){
+    public RecurrenceEvaluator setInitialValues(Double [] initialValues){
         if(dim > 0 && dim != initialValues.length)
             throw new RuntimeException("Length of list of initial values must be equal to 'dimension' of recurrence.");
         this.initialValues = Arrays.asList(initialValues);
@@ -59,16 +59,16 @@ public class recurrenceEvaluator {
         return result;
     }
 
-    public RecurrenceSolverSpliterator spliterator(){
-        return new RecurrenceSolverSpliterator(this);
+    public RecurrenceEvaluatorSpliterator spliterator(){
+        return new RecurrenceEvaluatorSpliterator(this);
     }
 
     public Stream<Double> stream(){
-        return new RecurrenceSolverStream(spliterator(), false);
+        return new RecurrenceEvaluatorStream(spliterator(), false);
     }
 
     public Stream<Double> parallelStream(){
-        return new RecurrenceSolverStream(spliterator(), true);
+        return new RecurrenceEvaluatorStream(spliterator(), true);
     }
 
 }

@@ -10,9 +10,9 @@ import java.util.stream.*;
 public class RecurrenceEvaluatorStream implements Stream<Double>{
 
     private Stream<Double> realStream;
-    private RecurrenceSolverSpliterator spliterator;
+    private RecurrenceEvaluatorSpliterator spliterator;
 
-    RecurrenceEvaluatorStream(RecurrenceSolverSpliterator spliterator, boolean parallel){
+    RecurrenceEvaluatorStream(RecurrenceEvaluatorSpliterator spliterator, boolean parallel){
         this.spliterator = spliterator;
         this.realStream = StreamSupport.stream(spliterator, parallel);
     }
@@ -20,13 +20,13 @@ public class RecurrenceEvaluatorStream implements Stream<Double>{
     @Override
     public Stream<Double> limit(long l) {
         spliterator.limit(l);
-        return new RecurrenceSolverStream(spliterator, isParallel());
+        return new RecurrenceEvaluatorStream(spliterator, isParallel());
     }
 
     @Override
     public Stream<Double> skip(long l) {
         spliterator.skip(l);
-        return new RecurrenceSolverStream(spliterator, isParallel());
+        return new RecurrenceEvaluatorStream(spliterator, isParallel());
     }
 
     // end of anything possibly interesting
