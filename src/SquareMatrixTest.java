@@ -1,10 +1,8 @@
-import org.junit.Assert;
-
 import java.util.stream.IntStream;
 
 import static org.junit.Assert.*;
 
-class Support{
+class TestingSupport {
     static Double[] getFlat(int n, Double x){
         Double[] tab = new Double[n*n];
         IntStream.range(0, n*n).forEach(index -> tab[index] = x);
@@ -15,15 +13,15 @@ class Support{
 public class SquareMatrixTest {
     @org.junit.Test
     public void SimpleMultiplyTest() {
-        SquareMatrix m1 = new SquareMatrix(4, Support.getFlat(4, 1.0));
-        SquareMatrix m2 = new SquareMatrix(4, Support.getFlat(4, 1.0));
+        SquareMatrix m1 = new SquareMatrix(4, TestingSupport.getFlat(4, 1.0));
+        SquareMatrix m2 = new SquareMatrix(4, TestingSupport.getFlat(4, 1.0));
         SquareMatrix m = SquareMatrix.multiply(m1, m2);
-        SquareMatrix exp = new SquareMatrix(4, Support.getFlat(4, 4.0));
+        SquareMatrix exp = new SquareMatrix(4, TestingSupport.getFlat(4, 4.0));
         assertEquals(exp, m);
-        m1 = new SquareMatrix(10, Support.getFlat(10, 2.0));
-        m2 = new SquareMatrix(10, Support.getFlat(10, 8.0));
+        m1 = new SquareMatrix(10, TestingSupport.getFlat(10, 2.0));
+        m2 = new SquareMatrix(10, TestingSupport.getFlat(10, 8.0));
         m = SquareMatrix.multiply(m1, m2);
-        exp = new SquareMatrix(10, Support.getFlat(10, 160.0));
+        exp = new SquareMatrix(10, TestingSupport.getFlat(10, 160.0));
         assertEquals(exp, m);
         m1 = new SquareMatrix(3, new Double[]{1.0, 2.0, 1.0, 9.0, 0.0, 9.0, 6.0, 1.0, 3.0});
         m2 = new SquareMatrix(3, new Double[]{1.0, 1.0, 0.0, 5.0, 0.0, 0.0, 3.0, 0.0, 9.0});
@@ -36,13 +34,13 @@ public class SquareMatrixTest {
 
     @org.junit.Test
     public void SimplePowerTest() {
-        SquareMatrix m1 = new SquareMatrix(2, Support.getFlat(2, 1.0));
-        SquareMatrix exp = new SquareMatrix(2, Support.getFlat(2, 524288.0));
+        SquareMatrix m1 = new SquareMatrix(2, TestingSupport.getFlat(2, 1.0));
+        SquareMatrix exp = new SquareMatrix(2, TestingSupport.getFlat(2, 524288.0));
         SquareMatrix m = SquareMatrix.power(m1, 20);
         System.out.println(m);
         assertEquals(exp, m);
-        m1 = new SquareMatrix(2, Support.getFlat(2, 1.0));
-        exp = new SquareMatrix(2, Support.getFlat(2, 1048576.0));
+        m1 = new SquareMatrix(2, TestingSupport.getFlat(2, 1.0));
+        exp = new SquareMatrix(2, TestingSupport.getFlat(2, 1048576.0));
         m = SquareMatrix.power(m1, 21);
         System.out.println(m);
         assertEquals(exp, m);

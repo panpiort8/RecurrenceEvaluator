@@ -1,50 +1,28 @@
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 public class SquareMatrix {
-    private int n;
+    private int dim;
     private Double[] tab;
 
-    public SquareMatrix(int n){
-        this.n = n;
-        tab = new Double[n*n];
-        for (int i = 0; i < n; i++)
-            for (int j = 0; j < n; j++)
+    public SquareMatrix(int dim){
+        this.dim = dim;
+        tab = new Double[dim * dim];
+        for (int i = 0; i < dim; i++)
+            for (int j = 0; j < dim; j++)
                 set(i, j, 0.0);
     }
 
     public SquareMatrix(SquareMatrix matrix){
-        this.n = matrix.getN();
+        this.dim = matrix.getDim();
         tab = matrix.getRaw();
     }
 
-    public SquareMatrix(int n, Double[] elements){
-        this.n = n;
-        if(elements.length != n*n){
+    public SquareMatrix(int dim, Double[] elements){
+        this.dim = dim;
+        if(elements.length != dim * dim){
             throw new RuntimeException("Invalid arguments!");
         }
         tab = elements;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (!(o instanceof SquareMatrix))
-            return false;
-        SquareMatrix m = (SquareMatrix) o;
-        return m.getN() == getN() && Arrays.asList(m.tab).equals(Arrays.asList(tab));
-    }
-
-    @Override
-    public String toString() {
-        StringBuilder builder = new StringBuilder();
-        for (int j = 0; j < getN(); j++) {
-            for (int i = 0; i < getN(); i++) {
-                builder.append(get(i, j)).append(' ');
-            }
-            builder.append('\n');
-        }
-        return builder.toString();
     }
 
     static public SquareMatrix getId(int n){
@@ -54,8 +32,8 @@ public class SquareMatrix {
         return id;
     }
 
-    public int getN() {
-        return n;
+    public int getDim() {
+        return dim;
     }
 
     public Double[] getRaw(){
@@ -63,22 +41,41 @@ public class SquareMatrix {
     }
 
     public Double get(int i, int j){
-        return tab[n*j + i];
+        return tab[dim *j + i];
     }
 
     public void set(int i, int j, Double val){
-        tab[n*j + i] = val;
+        tab[dim *j + i] = val;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (!(o instanceof SquareMatrix))
+            return false;
+        SquareMatrix m = (SquareMatrix) o;
+        return m.getDim() == getDim() && Arrays.asList(m.tab).equals(Arrays.asList(tab));
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder builder = new StringBuilder();
+        for (int j = 0; j < getDim(); j++) {
+            for (int i = 0; i < getDim(); i++) {
+                builder.append(get(i, j)).append(' ');
+            }
+            builder.append('\n');
+        }
+        return builder.toString();
+    }
 
     static public SquareMatrix multiply(SquareMatrix m1, SquareMatrix m2){
-        if (m1.getN() != m2.getN())
+        if (m1.getDim() != m2.getDim())
             throw new RuntimeException("Different matrix dimensions!");
-        SquareMatrix m = new SquareMatrix(m1.getN());
-        for (int i = 0; i < m.getN(); i++) {
-            for (int j = 0; j < m.getN(); j++) {
+        SquareMatrix m = new SquareMatrix(m1.getDim());
+        for (int i = 0; i < m.getDim(); i++) {
+            for (int j = 0; j < m.getDim(); j++) {
                 Double x = 0.0;
-                for (int k = 0; k < m.getN(); k++) {
+                for (int k = 0; k < m.getDim(); k++) {
                     x += m2.get(i, k) * m1.get(k, j);
                 }
                 m.set(i, j, x);
@@ -89,7 +86,7 @@ public class SquareMatrix {
 
     static public SquareMatrix power(SquareMatrix matrix, long k){
         if(k == 0)
-            return SquareMatrix.getId(matrix.getN());
+            return SquareMatrix.getId(matrix.getDim());
         if(k == 1)
             return new SquareMatrix(matrix);
         if(k % 2 == 0){

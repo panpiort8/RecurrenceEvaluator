@@ -5,31 +5,32 @@ import java.util.Spliterator;
 import java.util.function.*;
 import java.util.stream.*;
 
-public class RecurrencySolverStream implements Stream<Double>{
+// it's kind of proxy; i couldn't figure out anything more sophisticated
+// only two methods are "custom", namely: skip() and limit()
+public class RecurrenceEvaluatorStream implements Stream<Double>{
 
     private Stream<Double> realStream;
     private RecurrenceSolverSpliterator spliterator;
 
-    RecurrencySolverStream(RecurrenceSolverSpliterator spliterator, boolean parallel){
+    RecurrenceEvaluatorStream(RecurrenceSolverSpliterator spliterator, boolean parallel){
         this.spliterator = spliterator;
         this.realStream = StreamSupport.stream(spliterator, parallel);
     }
 
     @Override
     public Stream<Double> limit(long l) {
-        if(spliterator.isLimited())
-            return realStream.limit(l);
         spliterator.limit(l);
-        return new RecurrencySolverStream(spliterator, isParallel());
+        return new RecurrenceSolverStream(spliterator, isParallel());
     }
 
     @Override
     public Stream<Double> skip(long l) {
-        if(spliterator.isSkipped())
-            return realStream.skip(l);
         spliterator.skip(l);
-        return new RecurrencySolverStream(spliterator, isParallel());
+        return new RecurrenceSolverStream(spliterator, isParallel());
     }
+
+    // end of anything possibly interesting
+
 
     @Override
     public Stream<Double> filter(Predicate<? super Double> predicate) {

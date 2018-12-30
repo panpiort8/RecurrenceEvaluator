@@ -4,12 +4,11 @@ import java.util.List;
 
 import static org.junit.Assert.*;
 
-public class RecurrenceSolverStreamTest {
+public class RecurrenceEvaluatorStreamTest {
     @org.junit.Test
     public void StreamLimitTest() {
         RecurrenceSolver solver = new RecurrenceSolver();
-        solver.setRecurrency(new Double[]{1.0, 1.0});
-        solver.setArguments(new Double[]{1.0, 1.0});
+        solver.setRecurrence(new Double[]{1.0, 1.0}).setInitialValues(new Double[]{1.0, 1.0});
 
         List<Double> result = new ArrayList<>();
         List<Double> expected = Arrays.asList(1.0, 1.0, 2.0, 3.0, 5.0, 8.0, 13.0, 21.0, 34.0, 55.0);
@@ -20,8 +19,7 @@ public class RecurrenceSolverStreamTest {
     @org.junit.Test
     public void StreamSkipLimitTest() {
         RecurrenceSolver solver = new RecurrenceSolver();
-        solver.setRecurrency(new Double[]{1.0, 1.0});
-        solver.setArguments(new Double[]{1.0, 1.0});
+        solver.setRecurrence(new Double[]{1.0, 1.0}).setInitialValues(new Double[]{1.0, 1.0});
 
         List<Double> result = new ArrayList<>();
         List<Double> expected = Arrays.asList(3.0, 5.0, 8.0, 13.0, 21.0, 34.0, 55.0);
@@ -37,8 +35,7 @@ public class RecurrenceSolverStreamTest {
     @org.junit.Test
     public void StreamTest() {
         RecurrenceSolver solver = new RecurrenceSolver();
-        solver.setRecurrency(new Double[]{1.0, 1.0});
-        solver.setArguments(new Double[]{1.0, 1.0});
+        solver.setRecurrence(new Double[]{1.0, 1.0}).setInitialValues(new Double[]{1.0, 1.0});
 
         List<Double> result = new ArrayList<>();
         List<Double> expected = Arrays
@@ -57,8 +54,7 @@ public class RecurrenceSolverStreamTest {
     @org.junit.Test
     public void SimpleStreamTest(){
         RecurrenceSolver solver = new RecurrenceSolver();
-        solver.setRecurrency(new Double[]{-1.0, 2.0});
-        solver.setArguments(new Double[]{1.0, 1.0});
+        solver.setRecurrence(new Double[]{-1.0, 2.0}).setInitialValues(new Double[]{1.0, 1.0});
 
         List<Integer> result = new ArrayList<>();
         List<Integer> expected = Arrays.asList(-79, -7, 1, 1, 1, 1, 3, 11, 51, 283);
@@ -74,13 +70,27 @@ public class RecurrenceSolverStreamTest {
     @org.junit.Test
     public void ParallelSortTest(){
         RecurrenceSolver solver = new RecurrenceSolver();
-        solver.setRecurrency(new Double[]{-0.5, 1.0});
-        solver.setArguments(new Double[]{1.0, 1.0});
+        solver.setRecurrence(new Double[]{-0.5, 1.0}).setInitialValues(new Double[]{1.0, 1.0});
 
         List<Long> sequential = new ArrayList<>();
         List<Long> parallel = new ArrayList<>();
         solver.stream().limit(100).sorted().map(Double::longValue).forEach(sequential::add);
         solver.parallelStream().limit(100).sorted().map(Double::longValue).forEachOrdered(parallel::add);
         assertEquals(sequential, parallel);
+    }
+
+    @org.junit.Test
+    public void ParallelAdvancedTest(){
+        RecurrenceSolver solver = new RecurrenceSolver();
+        solver.setRecurrence(new Double[]{-0.5, 1.0}).setInitialValues(new Double[]{1.0, 1.0});
+
+        List<Long> sequential = new ArrayList<>();
+        List<Long> parallel = new ArrayList<>();
+        solver.stream().limit(100).sorted().skip(99).map(Double::longValue).forEachOrdered(sequential::add);
+        solver.parallelStream().limit(100).sorted().skip(99).map(Double::longValue).forEachOrdered(parallel::add);
+        assertEquals(sequential, parallel);
+
+        Long result = solver.stream().limit(100).max(Double::compareTo).map(Double::longValue).get();
+        assertEquals(result, parallel.get(parallel.size()-1));
     }
 }
