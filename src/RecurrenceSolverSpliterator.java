@@ -2,19 +2,20 @@ import java.util.List;
 import java.util.Spliterator;
 import java.util.function.Consumer;
 
-public class RecurrencySolverSpliterator implements Spliterator<Double> {
+public class RecurrenceSolverSpliterator implements Spliterator<Double> {
 
-    private RecurrencySolver solver;
+    private RecurrenceSolver solver;
     private SquareMatrix recMatrix;
-    private SquareMatrix currentMatrix;
     private List<Double> arguments;
-    private int currentMatrixPower;
     private int matrixDim;
+
+    private SquareMatrix currentMatrix;
+    private int currentMatrixPower;
     private long current;
     private long last = Long.MAX_VALUE;
     private boolean skipped = false;
 
-    RecurrencySolverSpliterator(RecurrencySolver solver){
+    RecurrenceSolverSpliterator(RecurrenceSolver solver){
         this.current = 0;
         this.currentMatrixPower = 1;
         this.solver = solver;
@@ -54,7 +55,7 @@ public class RecurrencySolverSpliterator implements Spliterator<Double> {
             long remainPower = wantedPower - currentMatrixPower;
             currentMatrix = SquareMatrix.multiply(currentMatrix, SquareMatrix.power(recMatrix, remainPower));
             currentMatrixPower = (int) wantedPower;
-            consumer.accept(RecurrencySolver.extractValue(arguments, currentMatrix));
+            consumer.accept(RecurrenceSolver.extractValue(arguments, currentMatrix));
         }
         current++;
         return true;
@@ -62,16 +63,14 @@ public class RecurrencySolverSpliterator implements Spliterator<Double> {
 
     @Override
     public Spliterator<Double> trySplit() {
-        solver.setTriedToSplit(true);
-        return null;
-//        if (estimateSize() < 10)
-//            return null;
-//        long s = estimateSize()/2;
-//        RecurrencySolverSpliterator spliterator = new RecurrencySolverSpliterator(this.solver);
-//        spliterator.last = s;
-//        spliterator.current = this.current;
-//        this.current = s+1;
-//        return spliterator;
+        if (estimateSize() < 20)
+            return null;
+        long s = estimateSize()/2;
+        RecurrenceSolverSpliterator spliterator = new RecurrenceSolverSpliterator(this.solver);
+        spliterator.last = this.current + s;
+        spliterator.current = this.current;
+        this.current = spliterator.last + 1;
+        return spliterator;
     }
 
     @Override
@@ -81,7 +80,7 @@ public class RecurrencySolverSpliterator implements Spliterator<Double> {
 
     @Override
     public int characteristics() {
-        return CONCURRENT;
+        return isLimited() ? CONCURRENT | SUBSIZED | SIZED : CONCURRENT;
     }
 
 

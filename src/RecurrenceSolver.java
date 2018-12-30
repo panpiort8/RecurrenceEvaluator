@@ -1,8 +1,7 @@
 import java.util.*;
-import java.util.function.*;
 import java.util.stream.*;
 
-public class RecurrencySolver{
+public class RecurrenceSolver {
     private List<Double> arguments;
     private SquareMatrix matrix;
     private int n;
@@ -61,8 +60,8 @@ public class RecurrencySolver{
         return result;
     }
 
-    public RecurrencySolverSpliterator spliterator(){
-        return new RecurrencySolverSpliterator(this);
+    public RecurrenceSolverSpliterator spliterator(){
+        return new RecurrenceSolverSpliterator(this);
     }
 
     public Stream<Double> stream(){

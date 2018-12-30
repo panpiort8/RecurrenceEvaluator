@@ -8,11 +8,9 @@ import java.util.stream.*;
 public class RecurrencySolverStream implements Stream<Double>{
 
     private Stream<Double> realStream;
-    private RecurrencySolver solver;
-    private RecurrencySolverSpliterator spliterator;
+    private RecurrenceSolverSpliterator spliterator;
 
-    RecurrencySolverStream(RecurrencySolverSpliterator spliterator, boolean parallel){
-//        this.solver = solver;
+    RecurrencySolverStream(RecurrenceSolverSpliterator spliterator, boolean parallel){
         this.spliterator = spliterator;
         this.realStream = StreamSupport.stream(spliterator, parallel);
     }

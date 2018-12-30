@@ -1,16 +1,9 @@
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-import java.util.stream.Stream;
-import java.util.stream.StreamSupport;
-
 import static org.junit.Assert.*;
 
-public class RecurrencySolverTest {
+public class RecurrenceSolverTest {
     @org.junit.Test
     public void SimpleRecurrencyTest() {
-        RecurrencySolver solver = new RecurrencySolver();
+        RecurrenceSolver solver = new RecurrenceSolver();
         solver.setRecurrency(new Double[]{1.0, 1.0});
         solver.setArguments(new Double[]{1.0, 1.0});
         assertEquals(Double.valueOf(1.0), solver.getKthValue(0));
