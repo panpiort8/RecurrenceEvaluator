@@ -54,15 +54,15 @@ public class RecurrenceEvaluatorStreamTest {
     @org.junit.Test
     public void SimpleStreamTest(){
         RecurrenceEvaluator solver = new RecurrenceEvaluator();
-        solver.setRecurrence(new Double[]{-1.0, 2.0}).setInitialValues(new Double[]{1.0, 1.0});
+        solver.setRecurrence(new Double[]{-1.5, 2.0}).setInitialValues(new Double[]{1.0, 1.0});
 
         List<Integer> result = new ArrayList<>();
-        List<Integer> expected = Arrays.asList(-79, -7, 1, 1, 1, 1, 3, 11, 51, 283);
+        List<Integer> expected = Arrays.asList(-43, -7, 0, 0, 1, 1, 1, 3, 18, 102);
         solver.stream().limit(10).sorted().map(Double::intValue).forEach(result::add);
         assertEquals(expected, result);
 
         result = new ArrayList<>();
-        expected = Arrays.asList(1, 1, 1, 3, 11, 51, 283);
+        expected = Arrays.asList(0, 1, 1, 1, 3, 18, 102);
         solver.stream().limit(10).sorted().skip(3).map(Double::intValue).forEach(result::add);
         assertEquals(expected, result);
     }

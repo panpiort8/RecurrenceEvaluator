@@ -25,10 +25,10 @@ public class RecurrenceEvaluator {
         List<Double> rec = Arrays.asList(recurrence);
         this.dim = rec.size();
         matrix = new SquareMatrix(dim);
-        for (int i = 0; i < dim; i++) {
+        for (int i = 0; i < dim; i++)
             matrix.set(i, 0, rec.get(i));
-            matrix.set(0, i, rec.get(i));
-        }
+        for (int i = 0; i < dim-1; i++)
+            matrix.set(i, i+1, 1.0);
         return this;
     }
 
