@@ -1,3 +1,5 @@
+package NonRecurrenceSpliterators;
+
 public class Support {
     static boolean isPrime(long number){
         if(number == 2)

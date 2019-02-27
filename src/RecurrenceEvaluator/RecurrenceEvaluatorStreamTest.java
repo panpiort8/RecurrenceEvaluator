@@ -1,3 +1,5 @@
+package RecurrenceEvaluator;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -13,6 +15,7 @@ public class RecurrenceEvaluatorStreamTest {
         List<Double> result = new ArrayList<>();
         List<Double> expected = Arrays.asList(1.0, 1.0, 2.0, 3.0, 5.0, 8.0, 13.0, 21.0, 34.0, 55.0);
         solver.stream().limit(10).forEach(result::add);
+        solver.stream().skip(1000).limit(20).forEach(System.out::println);
         assertEquals(expected, result);
     }
 

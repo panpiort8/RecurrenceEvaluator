@@ -1,3 +1,5 @@
+package RecurrenceEvaluator;
+
 import java.util.stream.IntStream;
 
 import static org.junit.Assert.*;

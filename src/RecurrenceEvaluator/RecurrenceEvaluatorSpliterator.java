@@ -1,3 +1,5 @@
+package RecurrenceEvaluator;
+
 import java.util.List;
 import java.util.Spliterator;
 import java.util.function.Consumer;

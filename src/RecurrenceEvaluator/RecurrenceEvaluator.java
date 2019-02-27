@@ -1,3 +1,5 @@
+package RecurrenceEvaluator;
+
 import java.util.*;
 import java.util.stream.*;
 

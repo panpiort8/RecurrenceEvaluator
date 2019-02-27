@@ -1,3 +1,7 @@
+import NonRecurrenceSpliterators.CatalanSpliterator;
+import NonRecurrenceSpliterators.PrimesSpliterator;
+import RecurrenceEvaluator.RecurrenceEvaluator;
+
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
@@ -6,7 +10,7 @@ public class SequenceFactory {
         RecurrenceEvaluator evaluator = new RecurrenceEvaluator()
                 .setRecurrence(new Double[]{1.0, 1.0})
                 .setInitialValues(new Double[]{1.0, 1.0});
-        return new RecurrenceEvaluatorStream(evaluator.spliterator(), false);
+        return evaluator.stream();
     }
 
     public static Stream<Long> getPrimesStream(){
@@ -25,6 +29,6 @@ public class SequenceFactory {
         RecurrenceEvaluator evaluator = new RecurrenceEvaluator()
                 .setRecurrence(new Double[]{0.0, 1.0, 1.0})
                 .setInitialValues(new Double[]{1.0, 1.0, 1.0});
-        return new RecurrenceEvaluatorStream(evaluator.spliterator(), false);
+        return evaluator.stream();
     }
 }
