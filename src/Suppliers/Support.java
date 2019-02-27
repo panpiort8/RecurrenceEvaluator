@@ -1,7 +1,7 @@
-package NonRecurrenceSpliterators;
+package Suppliers;
 
 public class Support {
-    static boolean isPrime(long number){
+    public static boolean isPrime(long number){
         if(number == 2)
             return true;
         for (int i = 2; i <= Math.sqrt(number) + 1; i++)

@@ -17,12 +17,12 @@ public class SequenceFactoryTest {
     public void PrimesTest() {
         List<Integer> result = new ArrayList<>();
         List<Integer> expected = Arrays.asList(2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37);
-        SequenceFactory.getPrimesStream().limit(12).map(Long::intValue).forEach(result::add);
+        SequenceFactory.getPrimesStream().limit(12).forEach(result::add);
         assertEquals(expected, result);
 
         result = new ArrayList<>();
         expected = Arrays.asList(11, 13, 17, 19, 23, 29, 31, 37);
-        SequenceFactory.getPrimesStream().skip(4).limit(8).map(Long::intValue).forEach(result::add);
+        SequenceFactory.getPrimesStream().skip(4).limit(8).forEach(result::add);
         assertEquals(expected, result);
     }
 
@@ -65,7 +65,7 @@ public class SequenceFactoryTest {
     public void PadovanTest() {
         List<Integer> result = new ArrayList<>();
         List<Integer> expected = Arrays.asList(1, 1, 1, 2, 2, 3, 4, 5, 7, 9, 12, 16, 21, 28, 37, 49, 65, 86, 114);
-        SequenceFactory.getPadovanSequence().limit(19).map(Double::intValue).forEach(result::add);
+        SequenceFactory.getPadovanStream().limit(19).map(Double::intValue).forEach(result::add);
         assertEquals(expected, result);
     }
 }

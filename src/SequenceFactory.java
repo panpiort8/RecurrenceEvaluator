@@ -1,9 +1,8 @@
-import NonRecurrenceSpliterators.CatalanSpliterator;
-import NonRecurrenceSpliterators.PrimesSpliterator;
+import Suppliers.CatalanSupplier;
+import Suppliers.Support;
 import RecurrenceEvaluator.RecurrenceEvaluator;
 
 import java.util.stream.Stream;
-import java.util.stream.StreamSupport;
 
 public class SequenceFactory {
     public static Stream<Double> getFibonacciStream(){
@@ -13,19 +12,19 @@ public class SequenceFactory {
         return evaluator.stream();
     }
 
-    public static Stream<Long> getPrimesStream(){
-        return StreamSupport.stream(new PrimesSpliterator(), false);
+    public static Stream<Integer> getPrimesStream(){
+        return Stream.iterate(2, x -> x+1).filter(Support::isPrime);
     }
 
     public static Stream<Long> getCatalanModuloStream(){
-        return StreamSupport.stream(new CatalanSpliterator(), false);
+        return Stream.generate(new CatalanSupplier());
     }
 
     public static Stream<Long> getCatalansModuloStream(long modulo){
-        return StreamSupport.stream(new CatalanSpliterator(modulo), false);
+        return Stream.generate(new CatalanSupplier(modulo));
     }
 
-    public static Stream<Double> getPadovanSequence(){
+    public static Stream<Double> getPadovanStream(){
         RecurrenceEvaluator evaluator = new RecurrenceEvaluator()
                 .setRecurrence(new Double[]{0.0, 1.0, 1.0})
                 .setInitialValues(new Double[]{1.0, 1.0, 1.0});
